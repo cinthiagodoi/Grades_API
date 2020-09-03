@@ -2,6 +2,9 @@
   "name": "grade-api",
   "version": "1.0.0",
   "main": "app.js",
+  "engines": {
+    "node": "12.18.0"
+  },
   "scripts": {
     "start": "nodemon -r dotenv/config --experimental-modules app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
