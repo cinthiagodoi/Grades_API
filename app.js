@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://calm-sands-55441.herokuapp.com",
+    origin: process.env.CORS_URL,
   })
 );
 
@@ -34,4 +34,4 @@ app.get("/", (req, res) => {
 
 app.use(gradeRouter);
 
-app.listen(process.env.PORT, () => {});
+app.listen(process.env.PORT || 8081, () => {});
