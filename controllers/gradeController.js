@@ -24,14 +24,25 @@ const findAll = async (req, res) => {
   const name = req.query.name;
 
   //condicao para o filtro no findAll
-  let condition = name
+  var condition = name
     ? { name: { $regex: new RegExp(name), $options: "i" } }
     : {};
 
   try {
     const grades = await Grade.find(condition);
-    console.log(grades);
-    return res.send(grades);
+
+    const gradeList = grades.map(({ _id, name, subject, type, value }) => {
+      return {
+        id: _id,
+        name,
+        subject,
+        type,
+        value,
+      };
+    });
+    res.json(gradeList);
+    console.log(gradeList);
+
     logger.info(`GET /grade`);
   } catch (error) {
     res
@@ -46,6 +57,14 @@ const findOne = async (req, res) => {
   logger.info(`GET /grade - ${id}`);
   try {
     const data = await Grade.findById({ _id: id });
+    const { _id, name, subject, type, value } = data;
+    res.send({
+      id: _id,
+      name,
+      subject,
+      type,
+      value,
+    });
 
     if (!data) {
       return res.send({ message: "Nenhuma grade encontrada" });
@@ -67,17 +86,11 @@ const update = async (req, res) => {
   const id = req.params.id;
 
   try {
-    Grade.findOneAndUpdate(
-      { _id: id },
-      req.body,
-      { new: true },
-      (err, data) => {
-        if (err) {
-          res.send(err);
-        }
-        res.json(data);
-      }
-    );
+    const data = await Grade.findOneAndUpdate(id, req.body, { new: true });
+    if (!data) {
+      res.status(400).send("Student not found");
+    }
+    res.send(data);
     logger.info(`PUT /grade - ${id} - ${JSON.stringify(req.body)}`);
   } catch (error) {
     res.status(500).send({ message: "Erro ao atualizar a Grade id: " + id });

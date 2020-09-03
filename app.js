@@ -10,6 +10,7 @@ import { db } from "./models/index.js";
     await db.mongoose.connect(db.url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     });
     console.log("connectado");
   } catch (error) {
@@ -23,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:8081",
+    origin: "https://calm-sands-55441.herokuapp.com",
   })
 );
 
