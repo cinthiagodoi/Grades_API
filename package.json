@@ -6,7 +6,7 @@
     "node": "12.18.0"
   },
   "scripts": {
-    "start": "nodemon -r dotenv/config --experimental-modules app.js",
+    "start": "node -r dotenv/config --experimental-modules app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
